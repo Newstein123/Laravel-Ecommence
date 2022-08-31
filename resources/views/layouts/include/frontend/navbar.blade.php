@@ -74,7 +74,7 @@
                                         <img src="{{asset('/upload/images/'. $image->path)}}" class="ms-5 mt-3 border border-2 border-primary rounded-4" alt="..." width="30px">
                                      @endforeach
                                      @else 
-                                    <img src="/upload/images/user.png" alt="user" width="30px" class="mt-2 mb-3" >
+                                    <img src="/upload/images/avatar.png" alt="user" width="30px" height="30px" style="border-radius: 30px" class="mt-2 mb-3" >
                                     @endif
                              {{ Auth::user()->name }} 
                             </a>

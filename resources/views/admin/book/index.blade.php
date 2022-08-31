@@ -3,5 +3,4 @@
 @section('content')
 @include('layouts/include/admin/session')
    <livewire:admin.book.index/>       
-
 @endsection

@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use App\Http\Resources\BookResource;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -49,29 +51,29 @@ class BookController extends Controller
         // dd($request->all());
        
         // book create 
-  $books =  Book::create([
-    'title' => $request->title,
-    'slug' => $request->slug,
-    'quantity' => $request->quantity,
-    'price' => $request->price,
-    'description' => $request->description,
-    'pages' =>$request->pages,
-    'meta_title' => $request->meta_title,
-    'meta_keyword' => $request->meta_keyword,
-    'meta_description' => $request->meta_description,
-    'sprice' => $request->sprice,
-    'author' => $request->author,
-]);
+                $books =  Book::create([
+                    'title' => $request->title,
+                    'slug' => $request->slug,
+                    'quantity' => $request->quantity,
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'pages' =>$request->pages,
+                    'meta_title' => $request->meta_title,
+                    'meta_keyword' => $request->meta_keyword,
+                    'meta_description' => $request->meta_description,
+                    'sprice' => $request->sprice,
+                    'author' => $request->author,
+                ]);
 
 
 
-        if($request->hasFile('image')) {
+            if($request->hasFile('image')) {
             $file = $request->file('image');
-           $filename = time(). '_'. $file->getClientOriginalName();
-            $dir = public_path('upload/images/');
-           $file->move($dir,$filename);
+            $filename = time(). '_'. $file->getClientOriginalName();
+            $dir = public_path('upload/images');
+            $path = $file->move($dir,$filename);
           // Image upload to images table 
-
+           
           $books->images()->create([
             'path' => $filename,
            ]);
@@ -90,7 +92,7 @@ class BookController extends Controller
     public function show($id)
     {   
         $books = Book::findOrFail($id);
-        return view('admin/book/show', compact('books'));
+        return new BookResource($books);
     }
 
     public function edit($id)
@@ -116,13 +118,13 @@ class BookController extends Controller
              // delete image from database  
             $books->images()->delete();
             // delete from storage
-          
+            // unlink('upload/images/'. $books->images->path);
 
                
-        $file = $request->file('image');
-        $filename = time(). '_'. $file->getClientOriginalName();
-        $dir = public_path('/upload/images/');
-        $file->move($dir,$filename);
+            $file = $request->file('image');
+            $filename = time(). '_'. $file->getClientOriginalName();
+            $dir = public_path('upload/images');
+            $file->move($dir,$filename);
 
            //update image 
 

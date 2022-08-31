@@ -40,17 +40,18 @@ class BookController extends Controller
             'author' => $request->author,
         ]);
 
-       $category =  $book->categories()->attach($request->category_ids);
+        $file = $request->file('image');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $dir = public_path('upload/images');
+        $path = $file->move($dir, $filename);
 
-       $file = $request->file('image');
-       $filename = time() . '_' . $file->getClientOriginalName();
-       $dir = 'upload/images';
-       $path = $file->store($dir, $filename);
-
-        $image = $book->create([
+        $image = $book->images()->create([
             'path' => $path,
         ]);
-       
+
+       $category =  $book->categories()->attach($request->category_ids);
+       $papertype = $book->colors()->attach($request->color_ids);
+
         return response()->json([
             compact('book', 'category')
         ], 201);

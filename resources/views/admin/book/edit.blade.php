@@ -176,9 +176,10 @@
     {{-- book image tab starts  --}}
     <div class="tab-pane fade" id="image-tab-pane" role="tabpanel" aria-labelledby="image-tab" tabindex="0">
         <h3> Current Image </h3>
+        {{-- @dd(Storage::url($books->images->first()->path)) --}}
         @if ($books->images()->exists())
 @foreach ($books->images as $image) 
-<img src="{{asset('/upload/images/'. $image->path)}}" class="card-img-top w-25 ms-5 mt-3" alt="...">
+<img src="{{public_path('storage/'. $image->path)}}" class="card-img-top w-25 ms-5 mt-3" alt="...">
 @endforeach
 @endif
         <br>
