@@ -21,7 +21,7 @@ class View extends Component
                 
             Wishlist::create([
                 'user_id' => auth()->id(),
-                'product_id' => $productId,
+                'product_id' => $productId, // product id 
             ]);
             session()->flash('message', 'Added to wishlist successfully'); 
             }
